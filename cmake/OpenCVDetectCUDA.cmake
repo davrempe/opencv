@@ -51,7 +51,7 @@ if(CUDA_FOUND)
 
   message(STATUS "CUDA detected: " ${CUDA_VERSION})
 
-  set(_generations "Fermi" "Kepler")
+  set(_generations "Fermi" "Kepler" "Maxwell" "Pascal" "Volta")
   if(NOT CMAKE_CROSSCOMPILING)
     list(APPEND _generations "Auto")
   endif()
@@ -70,10 +70,16 @@ if(CUDA_FOUND)
   endif()
 
   set(__cuda_arch_ptx "")
-  if(CUDA_GENERATION STREQUAL "Kepler")
+  if(CUDA_GENERATION STREQUAL "Fermi")
+    set(__cuda_arch_bin "2.0")
+  elseif(CUDA_GENERATION STREQUAL "Kepler")
     set(__cuda_arch_bin "3.0 3.5 3.7")
   elseif(CUDA_GENERATION STREQUAL "Maxwell")
     set(__cuda_arch_bin "5.0 5.2")
+  elseif(CUDA_GENERATION STREQUAL "Pascal")
+    set(__cuda_arch_bin "6.0 6.1")
+  elseif(CUDA_GENERATION STREQUAL "Volta")
+    set(__cuda_arch_bin "7.0")
   elseif(CUDA_GENERATION STREQUAL "Auto")
     execute_process( COMMAND "${CUDA_NVCC_EXECUTABLE}" "${OpenCV_SOURCE_DIR}/cmake/checks/OpenCVDetectCudaArch.cu" "--run"
                      WORKING_DIRECTORY "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/"
