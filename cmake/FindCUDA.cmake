@@ -1091,7 +1091,7 @@ macro(CUDA_WRAP_SRCS cuda_target format generated_files)
 
   # Set up all the command line flags here, so that they can be overridden on a per target basis.
 
-  set(nvcc_flags "")
+  set(nvcc_flags "--expt-relaxed-constexpr")
 
   # Emulation if the card isn't present.
   if (CUDA_BUILD_EMULATION)
